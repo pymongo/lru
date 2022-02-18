@@ -1,5 +1,18 @@
 #![allow(dead_code, unused_variables)]
+
+// #![feature(generic_associated_types)]
+// #![feature(associated_type_defaults)]
+
 #![feature(linked_list_remove)]
+
+/*
+roadmap:
+- multi version of LRU: std
+- key/value of LRU use generic T: Default
+- benchmark
+*/
+mod impl_by_linked_list_with_raw_pointer;
+mod common;
 
 use std::collections::{HashMap, LinkedList};
 
