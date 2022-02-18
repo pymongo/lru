@@ -98,11 +98,20 @@ impl<K: Default + Hash + Eq + Clone, V: Default + Clone> Lru<K, V> for LruImpl<K
     // FIXME SIGSEGV
     unsafe fn get(&mut self, key: K) -> Option<V> {
         // ownership problem
-        let self_ = self as *mut Self;
-        (*self_).cache.get(&key).map(|node_ptr| {
+        // let self_ = self as *mut Self;
+
+        dbg!(line!());
+        if let Some(node_ptr) = self.cache.get(&key) {
+            dbg!(line!());
             self.move_node_to_head(*node_ptr);
+        }
+
+        dbg!(line!());
+        let ret = self.cache.get(&key).map(|node_ptr| {
+            // (*self_).move_node_to_head(*node_ptr);
             (*(*node_ptr)).val.clone()
-        })
+        });
+        ret
     }
 }
 
@@ -112,6 +121,6 @@ fn test() {
     unsafe {
         lru.put("key1", "val1");
         lru.put("key2", "val2");
-        // dbg!(lru.get("key1"));
+        dbg!(lru.get("key1"));
     }
 }
